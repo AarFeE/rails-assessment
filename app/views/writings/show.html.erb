@@ -1,0 +1,34 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @writing %>
+
+<div>
+  <%= link_to "Edit this writing", edit_writing_path(@writing) %> |
+  <%= link_to "Back to writings", writings_path %>
+
+  <%= button_to "Destroy this writing", @writing, method: :delete, data: { confirm: "Are you sure?" } %>
+</div>
+
+<h2>Comments</h2>
+<% @writing.comments.each do |comment| %>
+  <div>
+    <p><strong>Comment:</strong> <%= comment.content %></p>
+    <p><strong>Review:</strong> <%= comment.review ? "Yes" : "No" %></p>
+    <%= button_to "Delete Comment", [@writing, comment], method: :delete, data: { confirm: "Are you sure?" } %>
+  </div>
+<% end %>
+
+<h3>Add a new comment:</h3>
+<%= form_with(model: [@writing, Comment.new], local: true) do |form| %>
+  <div>
+    <%= form.label :content %>
+    <%= form.text_area :content, rows: 3 %>
+
+    <%= form.label :review %>
+    <%= form.check_box :review %>
+  </div>
+
+  <div>
+    <%= form.submit "Post Comment" %>
+  </div>
+<% end %>
